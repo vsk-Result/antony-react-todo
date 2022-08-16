@@ -1,37 +1,38 @@
 import React, {FC, useEffect} from 'react';
 import {TodoList} from "./components/TodoList";
-import {useDispatch, useSelector} from "react-redux";
-import {AppState} from "./store";
-import {checkTodo, fetchTodos, filterTodos} from "./store/todos/actions";
+import {RootState} from "./store";
 import {TodoFilterBar} from "./components/TodoFilterBar";
 import {TodosFilterTypes} from "./store/todos/types";
+import {useAppDispatch, useAppSelector} from "./hooks/redux";
+import {todoSlice} from "./store/todos/TodoSlice";
+import {fetchTodos} from "./store/todos/ActionCreators";
 
 export const App: FC = () => {
 
-  const dispatch = useDispatch();
-  const filteredTodos = useSelector((state: AppState) => state.todos.filteredTodos);
-  const filterMode = useSelector((state: AppState) => state.todos.filterMode);
+  const dispatch = useAppDispatch();
+  const {filteredTodos, filterMode} = useAppSelector((state: RootState) => state.todoReducer);
+  const {check, filter} = todoSlice.actions;
 
   useEffect(() => {
     dispatch(fetchTodos());
   }, []);
 
   const handleClickTodoItem = (id: number) => {
-    dispatch(checkTodo(id));
-    dispatch(filterTodos(filterMode));
+    dispatch(check(id));
+    dispatch(filter(filterMode));
   }
 
   const handleClickFilterAll = () => {
-    dispatch(filterTodos(TodosFilterTypes.FILTER_ALL));
+    dispatch(filter(TodosFilterTypes.FILTER_ALL));
   }
 
   const handleClickFilterCompleted = () => {
-    dispatch(filterTodos(TodosFilterTypes.FILTER_COMPLETED));
+    dispatch(filter(TodosFilterTypes.FILTER_COMPLETED));
   }
 
   const handleClickRefresh = () => {
     dispatch(fetchTodos());
-    dispatch(filterTodos(TodosFilterTypes.FILTER_ALL));
+    dispatch(filter(TodosFilterTypes.FILTER_ALL));
   }
 
   return (
