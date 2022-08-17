@@ -1,9 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
 import { rootReducer } from './rootReducer';
+import {todoAPI} from "../services/TodoService";
 
 export const setupStore = () => {
   return configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(todoAPI.middleware)
   })
 }
 
