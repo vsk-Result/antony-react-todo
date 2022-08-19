@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {FC} from "react";
 
 interface TodoFilterButtonProps {
   text: string,
   isActive: boolean,
-  clickHandler: any,
+  clickHandler: VoidFunction,
 }
 
-export const TodoFilterButton: FC<TodoFilterButtonProps> = ({ text, isActive, clickHandler }: TodoFilterButtonProps) => {
+export const TodoFilterButton: FC<TodoFilterButtonProps> = memo(({ text, isActive, clickHandler }: TodoFilterButtonProps) => {
   const classes = ['text-xs mr-3 font-bold hover:underline text-gray-500 focus:outline-none'];
 
   if (isActive) {
@@ -17,9 +17,10 @@ export const TodoFilterButton: FC<TodoFilterButtonProps> = ({ text, isActive, cl
   return (
     <button
       className={classes.join(' ')}
-      onClick={() => clickHandler()}
+      // здесь нет необходимости определять еще одну функцию, чтобы в ней вызывать clickHandler
+      onClick={clickHandler}
     >
       {text}
     </button>
   );
-}
+});

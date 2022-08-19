@@ -1,17 +1,20 @@
-import React, {FC} from 'react';
+import React, {FC, useMemo} from 'react';
 import {TodoItem} from "./TodoItem";
 import {ITodoItem} from "../models/todo-item";
 
-interface TodoListProps {
-  todos: ITodoItem[],
-  handleClickTodoItem: any
+type TodoListProps = {
+  todos: ITodoItem[];
+  handleClickTodoItem: (id: ITodoItem["id"]) => void;
 }
 
 export const TodoList: FC<TodoListProps> = ({todos, handleClickTodoItem}: TodoListProps) => {
+  // можно мемоизировать 
+  const items = useMemo(() => {
 
-  const items = todos.map((todo: ITodoItem) => (
-    <TodoItem key={todo.id} todo={todo} clickHandler={handleClickTodoItem}/>
-  ))
+    return todos.map((todo: ITodoItem) => (
+      <TodoItem key={todo.id} todo={todo} clickHandler={handleClickTodoItem}/>
+    ))
+  },[todos, handleClickTodoItem]); 
 
   return (
     <ul className="m-0 my-4 p-0 list-none w-full">
@@ -19,3 +22,4 @@ export const TodoList: FC<TodoListProps> = ({todos, handleClickTodoItem}: TodoLi
     </ul>
   );
 }
+

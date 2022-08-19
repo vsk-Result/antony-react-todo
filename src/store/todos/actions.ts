@@ -4,6 +4,7 @@ import TodoService from "../../api/TodoService";
 import {ITodoItem} from "../../models/todo-item";
 import {shuffle} from "../../util/common";
 
+// any по-хорошему не должно быть, нужно точно определять тип
 export const fetchTodos: any = () => async (dispatch: AppDispatch) => {
   try {
     const todosCount = 5;

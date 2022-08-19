@@ -1,12 +1,12 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {ITodoItem} from "../models/todo-item";
 
-interface TodoItemProps {
-  todo: ITodoItem,
-  clickHandler: any
+type TodoItemProps = {
+  todo: ITodoItem;
+  clickHandler: (id: ITodoItem["id"]) => void;
 }
 
-export const TodoItem: FC<TodoItemProps> = ({ todo , clickHandler}: TodoItemProps) => {
+export const TodoItem: FC<TodoItemProps> = memo(({ todo , clickHandler}: TodoItemProps) => {
 
   const classes = ['todo-item'];
 
@@ -23,4 +23,4 @@ export const TodoItem: FC<TodoItemProps> = ({ todo , clickHandler}: TodoItemProp
       {todo.title}
     </li>
   )
-}
+});
